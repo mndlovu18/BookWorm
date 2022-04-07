@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // import the Post class from Post.js
 var Post = require("./Post.js");
+const { redirect } = require("express/lib/response");
 
 /***************************************/
 
@@ -72,6 +73,21 @@ app.use("/posts", (req, res) => {
       }
     }
   });
+});
+
+//endpoint for delete
+app.use("/delete", (req, res) => {
+  let id = req.query._id;
+  let deleted = Post.findByIdAndDelete(id).exec();
+  deleted.then(data =>{
+    console.log(deleted);
+  res.type("html").status(200);
+      res.write("This is the delete endpoint" + id + deleted.title);
+      res.end();
+  })
+
+
+
 });
 
 app.use("/public", express.static("public"));
