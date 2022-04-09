@@ -2,6 +2,11 @@
 var express = require("express");
 var app = express();
 
+//load views using pug
+app.set('views', './views')
+app.set('view engine', 'pug')
+
+
 // set up BodyParser
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -66,6 +71,7 @@ app.use("/posts", (req, res) => {
           res.write("<p>" + post.created + "</p>");
           res.write("<p>" + "id: " + post._id + "</p>");
           res.write('<a href="/delete?_id=' + post._id + '">delete</a>');
+          res.write('&nbsp <a href="/edit?_id=' + post._id + '">edit</a>');
           res.write("<br>");
         });
         res.write("</ul>");
@@ -85,10 +91,22 @@ app.use("/delete", (req, res) => {
       res.write("This is the delete endpoint" + id + deleted.title);
       res.end();
   })
+});
 
-
+//endpoint for edit
+app.use("/edit", (req, res) => {
+  let id = req.query._id;
+  let post = Post.findById(id).exec();
+  res.render('edit', { title: 'Hey', message: 'Hello there!' })
 
 });
+
+
+
+
+
+
+
 
 app.use("/public", express.static("public"));
 
