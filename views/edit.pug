@@ -2,3 +2,17 @@ html
     include navBar.pug
     body
         h1= message
+        .row.d-flex.justify-content-center
+            .col-lg-6
+                h4.mt-5  What Book have you been reading lately?
+                form(action = "/submitEdit" method ="post")
+                    .form-group 
+                        label(for = "title") Title 
+                        input#title.form-control(type = "text", placeholder = "Enter title", name = "title", value = title)
+                    .form-group 
+                        label(for = "author") Author
+                        input#author.form-control(type = "text", placeholder = "Enter name", name = "name", value = author)
+                    .form-group 
+                        label(for = "summary") Summary 
+                        input#content.form-control(type = "text", placeholder = "Enter summary", name = "content", value = content)
+                    button.btn.btn-primary(type = "submit", name = "submitButton", value) Submit

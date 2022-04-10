@@ -65,11 +65,11 @@ app.use("/posts", (req, res) => {
         res.write("<ul>");
         //show each post in the database
         posts.forEach((post) => {
-          res.write("<h3>" + post.title + "</h3>");
-          res.write("<p>" + post.title + "</p>");
-          res.write("<p>" + post.content + "</p>");
-          res.write("<p>" + post.created + "</p>");
-          res.write("<p>" + "id: " + post._id + "</p>");
+          res.write("<h3> Book title: " + post.title + "</h3>");
+          res.write("<p> Author: " + post.name + "</p>");
+          res.write("<p> Summary: " + post.content + "</p>");
+          res.write("<p> Date posted: " + post.created + "</p>");
+          res.write("<p>" + "Post id: " + post._id + "</p>");
           res.write('<a href="/delete?_id=' + post._id + '">delete</a>');
           res.write('&nbsp <a href="/edit?_id=' + post._id + '">edit</a>');
           res.write("<br>");
@@ -96,8 +96,35 @@ app.use("/delete", (req, res) => {
 //endpoint for edit
 app.use("/edit", (req, res) => {
   let id = req.query._id;
-  let post = Post.findById(id).exec();
-  res.render('edit', { title: 'Hey', message: 'Hello there!' })
+  Post.findById(id).exec(function(err,post){
+    if(post){
+      res.render('edit', { title: post.title, content: post.content, author:post.name })
+    }
+    else{
+      console.log("Post not found");
+    }
+  });
+});
+
+//endpoint for submitting the edits
+app.use("/submitEdit", (req,res) => {
+  let id = req.body._id;
+  let title = req.body.title;
+  let content = req.body.content;
+  let name = req.query.name;
+  console.log(res)
+  Post.findByIdAndUpdate(id).exec(function(err,post){
+    console.log(post)
+    if(post){
+      res.render('submitEdit', { title: title, content: content, author:name })
+    }
+    else{
+      console.log("Post not found");
+    }
+     //redirect to the homepage
+     res.redirect("/posts");
+  
+});
 
 });
 
