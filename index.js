@@ -88,7 +88,7 @@ app.use("/delete", (req, res) => {
   deleted.then(data =>{
     console.log(deleted);
   res.type("html").status(200);
-      res.write("This is the delete endpoint" + id + deleted.title);
+      res.write(id + " has been deleted." );
       res.end();
   })
 });
@@ -108,25 +108,66 @@ app.use("/edit", (req, res) => {
 
 //endpoint for submitting the edits
 app.use("/submitEdit", (req,res) => {
-  let id = req.body._id;
-  let title = req.body.title;
-  let content = req.body.content;
-  let name = req.query.name;
-  console.log(res)
-  Post.findByIdAndUpdate(id).exec(function(err,post){
-    console.log(post)
-    if(post){
-      res.render('submitEdit', { title: title, content: content, author:name })
-    }
-    else{
-      console.log("Post not found");
-    }
-     //redirect to the homepage
-     res.redirect("/posts");
+  var filter = { 'title' : req.body.title };
+  console.log(filter)
+	var action = { '$set' : { 'content' : req.body.content } };
+  console.log(action)
+
+	Post.findOneAndUpdate( filter, action, (err, post) => {
+		if (err) { 
+		   res.json( { 'status' : err } ); 
+		}
+		else if (!post) {
+		   res.json( { 'status' : 'no post' } ); 
+		}
+		else {
+		   res.json( { 'status' : 'Post edit success' } );
+       
+		}
+	});
   
 });
 
-});
+// //endpoint for edit
+// app.use("/edit", (req, res) => {
+//   var filter = { 'title' : req.query.title };
+
+// 	var action = { '$set' : { 'content' : req.query.content } };
+
+// 	Post.findOneAndUpdate( filter, action, (err, post) => {
+// 		if (err) { 
+// 		   res.json( { 'status' : err } ); 
+// 		}
+// 		else if (!orig) {
+// 		   res.json( { 'status' : 'no person' } ); 
+// 		}
+// 		else {
+// 		   res.json( { 'status' : 'success' } ); 
+// 		}
+// 	});
+// });
+
+// //endpoint for submitting the edits
+// app.use("/submitEdit", (req,res) => {
+//   let id = req.body._id;
+//   let title = req.body.title;
+//   let content = req.body.content;
+//   let name = req.query.name;
+//   console.log(id)
+//   Post.findByIdAndUpdate(id).exec(function(err,post){
+//     console.log(post)
+//     if(post){
+//       res.render('submitEdit', { title: title, content: content, author:name, _id: id })
+//     }
+//     else{
+//       console.log("Post not found");
+//     }
+//      //redirect to the homepage
+//      res.redirect("/posts");
+  
+// });
+
+// });
 
 
 
