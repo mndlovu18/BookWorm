@@ -1,0 +1,9 @@
+include postView.pug
+html 
+    include navBar.pug
+    body 
+        if !posts.length
+            p There are no posts in the DataBase
+        ul 
+            for post in posts 
+                +postView(post.title, post.name,post.content, post.created, post._id)

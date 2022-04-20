@@ -1,0 +1,15 @@
+mixin confirmation(message,button_text)
+    // Button trigger modal
+    button.btn.btn-primary(type='button' data-bs-toggle='modal' data-bs-target='#confirmationModal')
+        | #{button_text}
+    #confirmationModal.modal 
+        .modal-dialog
+            .modal-content
+                .modal-header 
+                    h5.modal-title Are you sure you want to edit/delete
+                    button:button.btn-close 
+                .modal-body 
+                    p=message  
+                .modal-footer
+                    button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Cancel
+                    button.btn.btn-primary(type = "submit", name = "submitButton", value) Submit

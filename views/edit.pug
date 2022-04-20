@@ -1,6 +1,7 @@
 html
     include navBar.pug
     body
+        
         h1= message
         .row.d-flex.justify-content-center
             .col-lg-6
@@ -17,5 +18,6 @@ html
                         input#content.form-control(type = "text", placeholder = "Enter summary", name = "content", value = content)
                     .form-group 
                         label(for = "id") id
-                        input#_id.form-control(type = "Number", placeholder = "Enter id", name = "_id", value = _id)
-                    button.btn.btn-primary(type = "submit", name = "submitButton", value) Submit
+                        input#_id.form-control(type = "Number", placeholder = "Enter id", name = "_id", value = _id readonly)
+                    include confirmation.pug
+                    +confirmation("Are you sure you want to edit","Submit")

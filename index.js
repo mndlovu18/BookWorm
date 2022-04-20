@@ -54,29 +54,31 @@ app.use("/posts", (req, res) => {
       res.write("uh oh: " + err);
       res.write(err);
     } else {
-      if (posts.length === 0) {
-        res.type("html").status(200);
-        res.write("There are no posts in the database");
-        res.end();
-        return;
-      } else {
-        res.type("html").status(200);
-        res.write("Here are all the posts in the database: ");
-        res.write("<ul>");
+      // if (posts.length === 0) {
+      //   res.type("html").status(200);
+      //   res.write("There are no posts in the database");
+      //   res.end();
+      //   return;
+      // } else {
+        // res.type("html").status(200);
+        // res.write("Here are all the posts in the database: ");
+        // res.write("<ul>");
         //show each post in the database
-        posts.forEach((post) => {
-          res.write("<h3> Book title: " + post.title + "</h3>");
-          res.write("<p> Author: " + post.name + "</p>");
-          res.write("<p> Summary: " + post.content + "</p>");
-          res.write("<p> Date posted: " + post.created + "</p>");
-          res.write("<p>" + "Post id: " + post._id + "</p>");
-          res.write('<a href="/delete?_id=' + post._id + '">delete</a>');
-          res.write('&nbsp <a href="/edit?_id=' + post._id + '">edit</a>');
-          res.write("<br>");
-        });
-        res.write("</ul>");
-        res.end();
-      }
+        res.render('viewPosts',{posts:posts});
+        // posts.forEach((post) => {
+        //   res.render('postView',{ title:post.title});
+          // res.write("<h3> Book title: " + post.title + "</h3>");
+          // res.write("<p> Author: " + post.name + "</p>");
+          // res.write("<p> Summary: " + post.content + "</p>");
+          // res.write("<p> Date posted: " + post.created + "</p>");
+          // res.write("<p>" + "Post id: " + post._id + "</p>");
+          // res.write('<a href="/delete?_id=' + post._id + '">delete</a>');
+          // res.write('&nbsp <a href="/edit?_id=' + post._id + '">edit</a>');
+          // res.write("<br>");
+        // });
+        // res.write("</ul>");
+        // res.end();
+      // }
     }
   });
 });
@@ -87,10 +89,12 @@ app.use("/delete", (req, res) => {
   let deleted = Post.findByIdAndDelete(id).exec();
   deleted.then(data =>{
     console.log(deleted);
-  res.type("html").status(200);
-      res.write(id + " has been deleted." );
-      res.end();
+  // res.type("html").status(200);
+  //     res.write(id + " has been deleted." );
+  //     res.end();
   })
+  //redirect to the homepage
+  res.redirect("/posts");
 });
 
 //endpoint for edit
@@ -98,7 +102,7 @@ app.use("/edit", (req, res) => {
   let id = req.query._id;
   Post.findById(id).exec(function(err,post){
     if(post){
-      res.render('edit', { title: post.title, content: post.content, author:post.name })
+      res.render('edit', { title: post.title, content: post.content, author:post.name, _id:id })
     }
     else{
       console.log("Post not found");
@@ -121,59 +125,12 @@ app.use("/submitEdit", (req,res) => {
 		   res.json( { 'status' : 'no post' } ); 
 		}
 		else {
-		   res.json( { 'status' : 'Post edit success' } );
-       
+		   //redirect to the homepage
+       res.redirect("/posts"); 
 		}
 	});
   
 });
-
-// //endpoint for edit
-// app.use("/edit", (req, res) => {
-//   var filter = { 'title' : req.query.title };
-
-// 	var action = { '$set' : { 'content' : req.query.content } };
-
-// 	Post.findOneAndUpdate( filter, action, (err, post) => {
-// 		if (err) { 
-// 		   res.json( { 'status' : err } ); 
-// 		}
-// 		else if (!orig) {
-// 		   res.json( { 'status' : 'no person' } ); 
-// 		}
-// 		else {
-// 		   res.json( { 'status' : 'success' } ); 
-// 		}
-// 	});
-// });
-
-// //endpoint for submitting the edits
-// app.use("/submitEdit", (req,res) => {
-//   let id = req.body._id;
-//   let title = req.body.title;
-//   let content = req.body.content;
-//   let name = req.query.name;
-//   console.log(id)
-//   Post.findByIdAndUpdate(id).exec(function(err,post){
-//     console.log(post)
-//     if(post){
-//       res.render('submitEdit', { title: title, content: content, author:name, _id: id })
-//     }
-//     else{
-//       console.log("Post not found");
-//     }
-//      //redirect to the homepage
-//      res.redirect("/posts");
-  
-// });
-
-// });
-
-
-
-
-
-
 
 
 app.use("/public", express.static("public"));
