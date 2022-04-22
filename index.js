@@ -47,6 +47,7 @@ app.use("/create", (req, res) => {
 
 //endpoint for showing all posts
 app.use("/posts", (req, res) => {
+  console.log(req.headers['content-type']);
   //find all posts in the database
   Post.find({}, (err, posts) => {
     if (err) {
@@ -64,7 +65,20 @@ app.use("/posts", (req, res) => {
         // res.write("Here are all the posts in the database: ");
         // res.write("<ul>");
         //show each post in the database
-        res.render('viewPosts',{posts:posts});
+        
+        res.format({
+          text () {
+            res.send('hey')
+          },
+        
+          html : function () {
+            res.render('viewPosts',{posts:posts});
+          },
+        
+          json : function () {
+            res.json(posts);
+          }
+        })
         // posts.forEach((post) => {
         //   res.render('postView',{ title:post.title});
           // res.write("<h3> Book title: " + post.title + "</h3>");
