@@ -1,20 +1,18 @@
 package edu.brynmawr.bookworm;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -39,14 +37,14 @@ public class MainActivity extends AppCompatActivity {
                 switch(id)
                 {
                     case R.id.home:
-                        Toast.makeText(MainActivity.this, "Home",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, "Home",Toast.LENGTH_SHORT).show();
                         switchActivities(HomeActivity.class);
                         break;
                     case R.id.mybooks:
-                        Toast.makeText(MainActivity.this, "My Books",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, "My Books",Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.posts:
-                        Toast.makeText(MainActivity.this, "Created Posts",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, "Created Posts",Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         return true;
