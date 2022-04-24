@@ -68,7 +68,7 @@ app.use("/posts", (req, res) => {
         
         res.format({
           text () {
-            res.send('hey')
+            res.send('hey')z
           },
         
           html : function () {
