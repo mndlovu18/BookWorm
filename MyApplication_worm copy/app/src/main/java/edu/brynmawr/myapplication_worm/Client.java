@@ -42,32 +42,70 @@ public class Client {
 		this.backEndUrl = "http://" + host + ":" + port;
 	}
 
+//save post to database
+    public void savePost(Post post) {
+		String url = backEndUrl + "/posts";
+		JSONObject postJson = new JSONObject(); //create JSON object
+		postJson.put("id", post.getId()); //add id
+		postJson.put("title", post.getTitle());
+		postJson.put("author", post.getName());
+		postJson.put("content", post.getContent());
+		postJson.put("created", post.getCreated());
+		//format of the JSON object created above is: {"id":1,"title":"title","author":"author","content":"content","created":"created"}
+		try {
+			URL obj = new URL(url); //create URL object
+			HttpURLConnection con = (HttpURLConnection) obj.openConnection(); //create connection
+			con.setRequestMethod("POST"); //set request method to POST
+			con.setRequestProperty("Content-Type", "application/json"); //set content type to JSON
+			con.setRequestProperty("Accept", "application/json"); //set accept type to JSON
+			con.connect(); //connect to the server
+			int responseCode = con.getResponseCode(); //get response code
+			if (responseCode == HttpURLConnection.HTTP_CREATED) { //if response code is 201
+				System.out.println("Post created successfully");
+			} else {
+				System.out.println("Post creation failed");
+			}
+			//save the post to the database
+			con.getOutputStream().write(postJson.toJSONString().getBytes());
+			con.getOutputStream().flush();
+			con.getOutputStream().close();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+	}
+
 //gets post from backend
 	public List<Post> getPosts() {
-		List<Post> posts = new ArrayList<Post>();
-		String rest_url = backEndUrl + "/posts";
-		URL url = null;
+		List<Post> posts = new ArrayList<Post>(); // create a list of posts
+		String rest_url = backEndUrl + "/posts"; // create the url to get posts
+		URL url = null; // create a url object
 
 		try {
-			url = new URL(rest_url);
+			url = new URL(rest_url); // create a new url object
 		} catch (MalformedURLException e) {
 			System.out.println("Invalid Url: " + rest_url);
 			return posts;
 		}
 
-		HttpURLConnection conn = null;
+		HttpURLConnection conn = null; // create a connection object to the url so we can get the data
 
 		try {
-			conn = (HttpURLConnection) url.openConnection();
+			conn = (HttpURLConnection) url.openConnection(); // open a connection to the url object and cast it to a HttpURLConnection to get the data
 		} catch (IOException e1) {
 			System.out.println("Fail to estabilish connection to the backend");
 			return posts;
 		}
 
 		try {
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Content-Type", "application/json");
-			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestMethod("GET"); // set the request method to GET
+			conn.setRequestProperty("Content-Type", "application/json"); // set the content type to json so we can get the data in json format
+			conn.setRequestProperty("Accept", "application/json"); // set the accept type to json so we can get the data in json format
 		} catch (ProtocolException e) {
 			System.out.println("Fail setting request method to GET");
 			return posts;
@@ -86,7 +124,7 @@ public class Client {
 		int responsecode = 0;
 		try {
 
-			responsecode = conn.getResponseCode();
+			responsecode = conn.getResponseCode(); // get the response code from the backend
 		} catch (IOException e) {
 			System.out.println("Failed getting  response code from server");
 			return posts;
@@ -98,21 +136,21 @@ public class Client {
 			return posts;
 		}
 
-		Scanner in = null;
+		Scanner in = null; // create a scanner object to read the data from the url
 		try {
-			in = new Scanner(conn.getInputStream());
+			in = new Scanner(conn.getInputStream()); // create a new scanner object to read the data from the url
 		} catch (IOException e) {
 			System.out.println("Failed reading response from server");
 			return posts;
 		}
 
-		while (in.hasNext()) {
+		while (in.hasNext()) { // while there is still data to read
 
 			// read the next line of the body of the response
 			String line = in.nextLine();
 			System.out.println(line);
-			JSONParser parser = new JSONParser();
-			JSONArray posts_json = null;
+			JSONParser parser = new JSONParser(); // create a new JSON parser object to parse the data from the url
+			JSONArray posts_json = null; // create a JSON array to hold the posts
 //		     then, parse the data and create a JSON object for it
 			try {
 				posts_json = (JSONArray) parser.parse(line);
@@ -122,7 +160,7 @@ public class Client {
 				return posts;
 			}
 
-			for (Object obj : posts_json) {
+			for (Object obj : posts_json) { // iterate through the JSON array to get each post
 
 				JSONObject post_json = (JSONObject) obj;
 				Long id = (Long) post_json.get("_id");
@@ -141,7 +179,6 @@ public class Client {
 
 		in.close();
 		return posts;
-
+		//lists returned in the format: [{_id: 1, title: "title", name: "name", content: "content", created: "created"}, {_id: 2, title: "title", name: "name", content: "content", created: "created"}]
 	}
-
 }
