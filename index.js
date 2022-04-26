@@ -15,8 +15,7 @@ var Post = require("./Post.js");
 const { redirect } = require("express/lib/response");
 /***************************************/
 
-//endpoint for creating a new post
-//this is the action of the "create new post" form
+//endpoint for creating a new post from url
 app.use("/create", (req, res) => {
   console.log(req.url);
   //create the new post
@@ -24,6 +23,34 @@ app.use("/create", (req, res) => {
     title: req.query.title,
     content: req.query.content,
     name: req.query.name,
+    //assign a timestamp to each post
+    created: Date.now(),
+    //assign an id to each post
+    _id: Math.floor(Math.random() * 1000000),
+  });
+
+  //save the new post to the database
+  newPost.save((err) => {
+    if (err) {
+      res.type("html").status(200);
+      res.write("uh oh: " + err);
+      console.log(err);
+      res.end();
+    } else {
+      //redirect to the homepage
+      res.redirect("/posts");
+    }
+  });
+});
+
+//endpoin to create a new post from the form
+app.use("/createpost", (req, res) => {
+  console.log(req.url);
+  //create the new post
+  var newPost = new Post({
+    title: req.body.title,
+    content: req.body.content,
+    name: req.body.name,
     //assign a timestamp to each post
     created: Date.now(),
     //assign an id to each post
@@ -54,17 +81,6 @@ app.use("/posts", (req, res) => {
       res.write("uh oh: " + err);
       res.write(err);
     } else {
-      // if (posts.length === 0) {
-      //   res.type("html").status(200);
-      //   res.write("There are no posts in the database");
-      //   res.end();
-      //   return;
-      // } else {
-      // res.type("html").status(200);
-      // res.write("Here are all the posts in the database: ");
-      // res.write("<ul>");
-      //show each post in the database
-
       res.format({
         text() {
           res.send("hey");
@@ -78,20 +94,6 @@ app.use("/posts", (req, res) => {
           res.json(posts);
         },
       });
-      // posts.forEach((post) => {
-      //   res.render('postView',{ title:post.title});
-      // res.write("<h3> Book title: " + post.title + "</h3>");
-      // res.write("<p> Author: " + post.name + "</p>");
-      // res.write("<p> Summary: " + post.content + "</p>");
-      // res.write("<p> Date posted: " + post.created + "</p>");
-      // res.write("<p>" + "Post id: " + post._id + "</p>");
-      // res.write('<a href="/delete?_id=' + post._id + '">delete</a>');
-      // res.write('&nbsp <a href="/edit?_id=' + post._id + '">edit</a>');
-      // res.write("<br>");
-      // });
-      // res.write("</ul>");
-      // res.end();
-      // }
     }
   });
 });

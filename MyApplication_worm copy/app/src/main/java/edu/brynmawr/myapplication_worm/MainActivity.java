@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
             ListView list = (ListView) findViewById(R.id.theList); //creates a new instance of the ListView class and assigns it to the list variable
             ArrayList<Post> posts = new ArrayList<Post>(); //creates a new instance of the ArrayList class and assigns it to the posts variable
             posts.addAll(result); //adds the list of posts to the posts ArrayList
-            System.out.println(posts); //prints the list of posts to the console
             Postadapter adapter = new Postadapter(MainActivity.this, R.layout.adapter_view,posts); //creates a new instance of the Postadapter class and assigns it to the adapter variable, which is used to display the posts
             list.setAdapter(adapter); //sets the adapter for the list view which displays the posts
         }

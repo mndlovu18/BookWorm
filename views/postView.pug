@@ -2,8 +2,8 @@ mixin postView(title,name,content,created,_id)
     h3 Book Title: #{title}
         h4 Author: #{name}
         p Summary: #{content}
-        p id: #{_id}
-        p created: #{created}
+        p Id: #{_id}
+        p Date Posted: #{created}
     a.btn.btn-primary(href="/edit?_id="+_id role = "button") Edit
     include confirmation.pug
     form(action = "/delete?_id="+_id method ="post")

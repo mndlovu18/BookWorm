@@ -14,13 +14,13 @@ import java.util.ArrayList;
 public class Postadapter extends ArrayAdapter<Post> {
 
 
-    private Context mContext;
-    private int mResource;
+    private Context mContext; //a reference to the activity that called this adapter
+    private int mResource; //the resource id for the layout file
 
     /**
      * Holds variables in a View
      */
-    private class ViewHolder {
+    private class ViewHolder { //holds the variables in a View, the view is the row in the list
         TextView id;
         TextView title;
         TextView name;
@@ -29,14 +29,14 @@ public class Postadapter extends ArrayAdapter<Post> {
 
     }
 
-    public Postadapter(Context context, int resource, ArrayList<Post> objects) {
-        super(context, resource, objects);
-        mContext = context;
-        mResource = resource;
+    public Postadapter(Context context, int resource, ArrayList<Post> objects) { //constructor
+        super(context, resource, objects); //call the constructor of the superclass which is ArrayAdapter
+        mContext = context; //save the context which is the activity
+        mResource = resource; //save the resource id which is the row layout
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) { //get the view of the row
         //get the post information
         Long id = getItem(position).getId();
         String title = getItem(position).getTitle();
@@ -84,6 +84,6 @@ public class Postadapter extends ArrayAdapter<Post> {
         holder.created.setText(post.getCreated());
 
 
-        return convertView;
+        return convertView; //return the view with the information set to the row
     }
 }

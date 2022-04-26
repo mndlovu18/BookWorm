@@ -26,7 +26,7 @@ public class DeletePostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 //get the post_id_input from the EditText
-                EditText editPostId = (EditText) findViewById(R.id.post_id_input);
+                EditText postId = (EditText) findViewById(R.id.post_id_input);
                 //create a dialogue box to confirm deletion
                 AlertDialog.Builder builder = new AlertDialog.Builder(DeletePostActivity.this);
                 builder.setMessage("Are you sure you want to delete this post?");
@@ -34,7 +34,7 @@ public class DeletePostActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Client client = new Client();
-                        client.deletePost(Long.parseLong(editPostId.getText().toString()));
+                        client.deletePost(Long.parseLong(postId.getText().toString()));
                         //go back to the main activity
                         Intent intent = new Intent(DeletePostActivity.this, MainActivity.class);
                         startActivity(intent);

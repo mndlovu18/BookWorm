@@ -102,7 +102,7 @@ public class Client {
 	public void deletePost(Long id) {
 		ServerConnection server = new ServerConnection(backEndUrl);
 		//the delete end point deletes a post
-		JSONObject results = server.get("delete?id=" + id); //get the result of the delete request
+		JSONObject results = server.get("delete?_id=" + id); //get the result of the delete request
 		//Log.v to print the result
 	    Log.v("result", results.toString());
 	}
