@@ -13,17 +13,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // import the Post class from Post.js
 var Post = require("./Post.js");
 const { redirect } = require("express/lib/response");
-
 /***************************************/
 
 //endpoint for creating a new post
 //this is the action of the "create new post" form
 app.use("/create", (req, res) => {
+  console.log(req.url);
   //create the new post
   var newPost = new Post({
-    title: req.body.title,
-    content: req.body.content,
-    name: req.body.name,
+    title: req.query.title,
+    content: req.query.content,
+    name: req.query.name,
     //assign a timestamp to each post
     created: Date.now(),
     //assign an id to each post

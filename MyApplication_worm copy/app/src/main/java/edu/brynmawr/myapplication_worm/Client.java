@@ -8,6 +8,8 @@ package edu.brynmawr.myapplication_worm;
  * without adding anything else.
  */
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -18,6 +20,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -42,44 +47,66 @@ public class Client {
 		this.backEndUrl = "http://" + host + ":" + port;
 	}
 
-//save post to database
-    public void savePost(Post post) {
-		String url = backEndUrl + "/posts";
-		JSONObject postJson = new JSONObject(); //create JSON object
-		postJson.put("id", post.getId()); //add id
-		postJson.put("title", post.getTitle());
-		postJson.put("author", post.getName());
-		postJson.put("content", post.getContent());
-		postJson.put("created", post.getCreated());
-		//format of the JSON object created above is: {"id":1,"title":"title","author":"author","content":"content","created":"created"}
-		try {
-			URL obj = new URL(url); //create URL object
-			HttpURLConnection con = (HttpURLConnection) obj.openConnection(); //create connection
-			con.setRequestMethod("POST"); //set request method to POST
-			con.setRequestProperty("Content-Type", "application/json"); //set content type to JSON
-			con.setRequestProperty("Accept", "application/json"); //set accept type to JSON
-			con.connect(); //connect to the server
-			int responseCode = con.getResponseCode(); //get response code
-			if (responseCode == HttpURLConnection.HTTP_CREATED) { //if response code is 201
-				System.out.println("Post created successfully");
-			} else {
-				System.out.println("Post creation failed");
-			}
-			//save the post to the database
-			con.getOutputStream().write(postJson.toJSONString().getBytes());
-			con.getOutputStream().flush();
-			con.getOutputStream().close();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (ProtocolException e) {
+	public class ServerConnection {
+		String host;
+		JSONObject result;
 
-			e.printStackTrace();
-		} catch (IOException e) {
-
-			e.printStackTrace();
+		public ServerConnection(String host) {
+			this.host = host;
+			this.result = null;
 		}
+
+		public JSONObject get(String request){
+			Log.v("URL", request);
+
+			result = null;
+			ExecutorService executor = Executors.newSingleThreadExecutor();
+			executor.execute(() -> {
+				try {
+					URL url = new URL(host + "/" + request);
+					Log.v("URL", url.toString());
+					HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+					connection.setRequestMethod("GET");
+					connection.connect();
+					
+					int responseCode = connection.getResponseCode();
+					if (responseCode != 200) {
+						throw new IllegalStateException();
+					}
+
+					Scanner in = new Scanner(url.openStream());
+					String msg = in.nextLine();
+
+					//use android JSON library to parse the JSON string
+					JSONParser parser = new JSONParser();
+					result = (JSONObject) parser.parse(msg);
+				} 
+				catch (Exception e){
+					Log.v("URL", e.toString());
+					e.printStackTrace();
+				}
+			});
+			return result;
+		}	
 	}
 
+	public void savePost(Post post) {
+		ServerConnection server = new ServerConnection(backEndUrl);
+		//the create end point creates a new post
+		JSONObject results = server.get("create?title=" + post.getTitle() + "&name=" +
+				post.getName() + "&content=" + post.getContent()); //get the result of the create request
+		//Log.v to print the result
+	    Log.v("result", results.toString()); //right now the results is null because the request url is not valid
+	}
+
+	public void deletePost(Long id) {
+		ServerConnection server = new ServerConnection(backEndUrl);
+		//the delete end point deletes a post
+		JSONObject results = server.get("delete?id=" + id); //get the result of the delete request
+		//Log.v to print the result
+	    Log.v("result", results.toString());
+	}
+	
 //gets post from backend
 	public List<Post> getPosts() {
 		List<Post> posts = new ArrayList<Post>(); // create a list of posts

@@ -34,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent); //starts the CreatePostActivity
     }
 
+    /** Delete a Post class called when user clicks the button */
+    public void deletePost(View view){
+        Intent intent = new Intent(this, DeletePostActivity.class); //creates an intent to start the DeletePostActivity
+        startActivity(intent); //starts the DeletePostActivity
+    }
+
     private class MyTask
             extends AsyncTask<Void, Void, List<Post>> { //creates a new class that extends AsyncTask
 

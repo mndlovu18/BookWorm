@@ -3,9 +3,11 @@ package edu.brynmawr.myapplication_worm;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,9 +46,14 @@ public class CreatePostActivity extends AppCompatActivity {
 
                 //create a new post
                 Post post = new Post(id, title, author, content, created);
-
+                //print post to console
+                Log.d("CreatePostActivity", "Post: " + post.toString());
+                //toast the post
+                Toast.makeText(CreatePostActivity.this, post.toString(), Toast.LENGTH_LONG).show();
+                
                 //add the post to the database
                 Client client = new Client();
+
                 client.savePost(post);
                 //Database.addPost(post);
 

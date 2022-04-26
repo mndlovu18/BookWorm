@@ -7,6 +7,19 @@
     android:layout_height="match_parent">
     tools:context="Myapplication.MainActivity">
 
+    <Button
+        android:onClick="createPost"
+        android:layout_marginTop="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create a post " />
+
+    <Button
+        android:onClick="deletePost"
+        android:layout_marginTop="120dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete a post " />
 
     <ListView
         android:id="@+id/theList"
@@ -14,12 +27,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-    />
-
-    <Button
-        android:onClick="createPost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create a post " />
+        android:layout_marginTop="200dp" />
 
 </RelativeLayout>
