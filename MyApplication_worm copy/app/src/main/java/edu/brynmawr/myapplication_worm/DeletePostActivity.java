@@ -81,6 +81,8 @@ public class DeletePostActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Client client = new Client();
                         client.deletePost(Long.parseLong(postId.getText().toString()));
+                        Intent intent = new Intent(DeletePostActivity.this, PostsActivity.class);
+                        startActivity(intent);
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

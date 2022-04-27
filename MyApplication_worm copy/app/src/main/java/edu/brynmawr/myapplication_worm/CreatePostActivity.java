@@ -85,28 +85,17 @@ public class CreatePostActivity extends AppCompatActivity {
                 //get the content from the content text field
                 EditText editContent = (EditText) findViewById(R.id.content);
                 String content = editContent.getText().toString();
-
-                //create random id
-                Long id = (long) (Math.random() * 1000000);
-
-                //generate time stamp
-                String created = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-
-                //create a new post
-                Post post = new Post(id, title, author, content, created);
-                //print post to console
-                Log.d("CreatePostActivity", "Post: " + post.toString());
-                //toast the post
-                Toast.makeText(CreatePostActivity.this, post.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(CreatePostActivity.this, "Post Created", Toast.LENGTH_LONG).show();
 
                 //add the post to the database
                 Client client = new Client();
 
-                client.savePost(post);
+                client.savePost(title, author, content);
                 //Database.addPost(post);
 
                 //go back to the main activity
-                finish();
+                Intent intent = new Intent(CreatePostActivity.this, PostsActivity.class);
+                startActivity(intent);
             }
         };
 

@@ -92,10 +92,10 @@ public class Client {
 		}	
 	}
 
-	public void savePost(Post post) {
+	public void savePost(String title, String name, String content) {
 		ServerConnection server = new ServerConnection(backEndUrl);
 		//the create end point creates a new post
-		JSONObject results = server.get("createpost?title=" + post.getTitle() + "&name=" + post.getName() + "&content=" + post.getContent()); //get the result of the create request
+		JSONObject results = server.get("createpost?title=" + title + "&name=" + name + "&content=" + content); //get the result of the create request
 	}
 
 	public void deletePost(Long id) {
