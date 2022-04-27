@@ -20,9 +20,9 @@ app.use("/create", (req, res) => {
   console.log(req.url);
   //create the new post
   var newPost = new Post({
-    title: req.query.title,
-    content: req.query.content,
-    name: req.query.name,
+    title: req.body.title,
+    content: req.body.content,
+    name: req.body.name,
     //assign a timestamp to each post
     created: Date.now(),
     //assign an id to each post
@@ -48,9 +48,9 @@ app.use("/createpost", (req, res) => {
   console.log(req.url);
   //create the new post
   var newPost = new Post({
-    title: req.body.title,
-    content: req.body.content,
-    name: req.body.name,
+    title: req.query.title,
+    content: req.query.content,
+    name: req.query.name,
     //assign a timestamp to each post
     created: Date.now(),
     //assign an id to each post
@@ -104,11 +104,7 @@ app.use("/delete", (req, res) => {
   let deleted = Post.findByIdAndDelete(id).exec();
   deleted.then((data) => {
     console.log(deleted);
-    // res.type("html").status(200);
-    //     res.write(id + " has been deleted." );
-    //     res.end();
   });
-  //redirect to the homepage
   res.redirect("/posts");
 });
 

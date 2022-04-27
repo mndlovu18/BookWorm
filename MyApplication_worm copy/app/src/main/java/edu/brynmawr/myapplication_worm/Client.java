@@ -10,6 +10,8 @@ package edu.brynmawr.myapplication_worm;
 
 import android.util.Log;
 
+import androidx.appcompat.app.AlertDialog;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -93,18 +95,13 @@ public class Client {
 	public void savePost(Post post) {
 		ServerConnection server = new ServerConnection(backEndUrl);
 		//the create end point creates a new post
-		JSONObject results = server.get("create?title=" + post.getTitle() + "&name=" +
-				post.getName() + "&content=" + post.getContent()); //get the result of the create request
-		//Log.v to print the result
-	    Log.v("result", results.toString()); //right now the results is null because the request url is not valid
+		JSONObject results = server.get("createpost?title=" + post.getTitle() + "&name=" + post.getName() + "&content=" + post.getContent()); //get the result of the create request
 	}
 
 	public void deletePost(Long id) {
 		ServerConnection server = new ServerConnection(backEndUrl);
 		//the delete end point deletes a post
 		JSONObject results = server.get("delete?_id=" + id); //get the result of the delete request
-		//Log.v to print the result
-	    Log.v("result", results.toString());
 	}
 	
 //gets post from backend

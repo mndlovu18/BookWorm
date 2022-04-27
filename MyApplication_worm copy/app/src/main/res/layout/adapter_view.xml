@@ -43,10 +43,11 @@
 
         <TextView
             android:gravity="center"
-            android:text="TextView5"
+            android:text="TextView6"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:id="@+id/textView6"/>
+
     </LinearLayout>
 
 </LinearLayout>

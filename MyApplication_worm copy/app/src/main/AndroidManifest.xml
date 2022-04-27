@@ -14,6 +14,9 @@
         android:theme="@style/Theme.MyApplication_worm"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".PostsActivity"
+            android:exported="false" />
+        <activity
             android:name=".DeletePostActivity"
             android:exported="false" />
         <activity

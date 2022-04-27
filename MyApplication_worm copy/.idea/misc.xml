@@ -3,10 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_library_books_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_post_add_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.237" />
         <entry key="app/src/main/res/layout/activity_create_post.xml" value="0.2942708333333333" />
         <entry key="app/src/main/res/layout/activity_delete.xml" value="0.23541666666666666" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1146430432516936" />
-        <entry key="app/src/main/res/layout/adapter_view.xml" value="0.12082066869300911" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.338107098381071" />
+        <entry key="app/src/main/res/layout/activity_posts.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/adapter_view.xml" value="0.502283105022831" />
+        <entry key="app/src/main/res/layout/ic_baseline_home_24.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/ic_baseline_library_books_24.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/ic_baseline_post_add_24.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/nav_header.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/menu/navigation_.xml" value="0.3463541666666667" />
       </map>
     </option>
   </component>

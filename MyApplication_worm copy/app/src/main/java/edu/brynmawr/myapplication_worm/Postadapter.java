@@ -1,5 +1,6 @@
 package edu.brynmawr.myapplication_worm;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -44,16 +46,12 @@ public class Postadapter extends ArrayAdapter<Post> {
         String content = getItem(position).getContent();
         String created = getItem(position).getCreated();
 
+        Post post = new Post(id,  title, name, content, created); //Create the person object with the information
 
+    
+        final View result; //the view to return which is the row of the list
 
-        //Create the person object with the information
-        Post post = new Post(id,  title, name, content, created);
-
-        //create the view result for showing the animation
-        final View result;
-
-        //ViewHolder object
-        ViewHolder holder;
+        ViewHolder holder; //holds the variables in a View wich is the row of the list
 
 
         if(convertView == null){
@@ -61,15 +59,15 @@ public class Postadapter extends ArrayAdapter<Post> {
             convertView = inflater.inflate(mResource, parent, false);
             holder= new ViewHolder();
 
-            holder.id = (TextView) convertView.findViewById(R.id.textView2);
-            holder.title = (TextView) convertView.findViewById(R.id.textView3);
-            holder.name = (TextView) convertView.findViewById(R.id.textView4);
-            holder.content = (TextView) convertView.findViewById(R.id.textView5);
-            holder.created = (TextView) convertView.findViewById(R.id.textView6);
+            holder.id = (TextView) convertView.findViewById(R.id.textView2); //get the id textview
+            holder.title = (TextView) convertView.findViewById(R.id.textView3); //get the title textview
+            holder.name = (TextView) convertView.findViewById(R.id.textView4); //get the name textview
+            holder.content = (TextView) convertView.findViewById(R.id.textView5); //get the content textview
+            holder.created = (TextView) convertView.findViewById(R.id.textView6); //get the created textview
+        
+            result = convertView; //save the view
 
-            result = convertView;
-
-            convertView.setTag(holder);
+            convertView.setTag(holder); //save the holder in the view
         }
         else{
             holder = (ViewHolder) convertView.getTag();
@@ -82,8 +80,8 @@ public class Postadapter extends ArrayAdapter<Post> {
         holder.name.setText(post.getName());
         holder.content.setText(post.getContent());
         holder.created.setText(post.getCreated());
-
-
-        return convertView; //return the view with the information set to the row
+        
+        return convertView; //return the view
     }
+
 }

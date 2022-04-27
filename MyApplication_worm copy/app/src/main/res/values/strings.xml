@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">My Application_worm</string>
+    <string name="app_name">BookWorm</string>
+    <string name="Open" />
+    <string name="Close" />
 </resources>
